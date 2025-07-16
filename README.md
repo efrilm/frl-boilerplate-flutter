@@ -14,6 +14,7 @@ It helps you:
 ## ✨ Features
 
 ✅ Add latest versions of recommended packages  
+✅ Auto generate assets folder  
 ✅ Auto-generate Clean Architecture folders (domain, data, presentation)  
 ✅ Support BLoC pattern  
 ✅ Generate launcher_icon.yaml  
@@ -132,93 +133,6 @@ lib/features/auth/
 
 ---
 
-## 🛠️ Additional Commands
-
-### Run Flutter Launcher Icons
-
-After initializing, generate your app icons by running:
-
-```bash
-dart run flutter_launcher_icons -f launcher_icon.yaml
-```
-
----
-
-## 📂 Recommended Project Structure
-
-Here’s an example of the structure after using this CLI:
-
-```
-lib/
-├── core/
-│   ├── constants/
-│   └── logger.dart
-├── domain/
-│   └── ...
-├── features/
-│   └── ...
-├── shared/
-│   └── ...
-└── main.dart
-```
-
----
-
-## 💻 Development
-
-### Run Tests
-
-```bash
-dart test
-```
-
-### Format Code
-
-```bash
-dart format .
-```
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to:
-
-- Open an issue
-- Submit a pull request
-- Suggest improvements
-
----
-
-## 📄 License
-
-MIT License
-
----
-
-## 🔗 Related Links
-
-- [Dart CLI Documentation](https://dart.dev/tools/dart-cli)
-- [Flutter Documentation](https://flutter.dev/docs)
-
----
-
-## 📸 Screenshot
-
-> Add screenshots of your CLI output here for a nice README visual!
-
-Example output:
-
-```
-🔹 Adding dependencies...
-✅ dio: ^5.4.0 added.
-⏭️  get_it already exists, skipping...
-
-🔹 Running dart pub get...
-Resolving dependencies...
-✅ All done!
-```
-
 ---
 
 ## 🎨 Assets Setup
@@ -317,4 +231,71 @@ Example output from the CLI:
 ✅ Added asset path to pubspec.yaml: assets/fonts/
 ✅ Added asset path to pubspec.yaml: assets/json/
 ✅ pubspec.yaml updated with asset paths.
+```
+
+---
+
+## 🛠️ Additional Commands
+
+### Run Flutter Launcher Icons
+
+After initializing, generate your app icons by running:
+
+```bash
+dart run flutter_launcher_icons -f launcher_icon.yaml
+```
+
+## 💻 Development
+
+### Run Tests
+
+```bash
+dart test
+```
+
+### Format Code
+
+```bash
+dart format .
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to:
+
+- Open an issue
+- Submit a pull request
+- Suggest improvements
+
+---
+
+## 📄 License
+
+MIT License
+
+---
+
+## 🔗 Related Links
+
+- [Dart CLI Documentation](https://dart.dev/tools/dart-cli)
+- [Flutter Documentation](https://flutter.dev/docs)
+
+---
+
+## 📸 Screenshot
+
+> Add screenshots of your CLI output here for a nice README visual!
+
+Example output:
+
+```
+🔹 Adding dependencies...
+✅ dio: ^5.4.0 added.
+⏭️  get_it already exists, skipping...
+
+🔹 Running dart pub get...
+Resolving dependencies...
+✅ All done!
 ```
