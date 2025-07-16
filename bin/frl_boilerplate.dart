@@ -7,6 +7,7 @@ import 'package:frl_boilerplate/commands/create_domain.dart';
 import 'package:frl_boilerplate/commands/create_env_command.dart';
 import 'package:frl_boilerplate/commands/create_feature.dart';
 import 'package:frl_boilerplate/commands/create_injection_config.dart';
+import 'package:frl_boilerplate/commands/create_theme_command.dart';
 import 'package:frl_boilerplate/commands/init_project_command.dart';
 import 'package:frl_boilerplate/utils/logger.dart';
 
@@ -23,6 +24,7 @@ Future<void> main(List<String> args) async {
     dart run frl_boilerplate create-injection
     dart run frl_boilerplate create-common
     dart run frl_boilerplate update-analysis-option
+    dart run frl_boilerplate create-theme
   ''');
     exit(0);
   }
@@ -74,6 +76,10 @@ Future<void> main(List<String> args) async {
 
     case 'update-analysis-option':
       createCommon();
+      break;
+
+    case 'create-theme':
+      createTheme();
       break;
 
     default:

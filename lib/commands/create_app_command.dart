@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:frl_boilerplate/commands/create_theme_command.dart';
 import 'package:frl_boilerplate/utils/logger.dart';
 
 void createApp() {
@@ -19,6 +20,8 @@ void createApp() {
     Directory('${baseDir.path}/$folder').createSync(recursive: true);
     Logger.success('Created folder: $folder');
   }
+
+  createTheme();
 
   Logger.success('Create app folder Success');
 }
