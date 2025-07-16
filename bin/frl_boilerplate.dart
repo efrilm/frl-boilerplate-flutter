@@ -1,8 +1,12 @@
 import 'dart:io';
 
 import 'package:frl_boilerplate/commands/create_app_command.dart';
+import 'package:frl_boilerplate/commands/create_assets_command.dart';
+import 'package:frl_boilerplate/commands/create_common_command.dart';
 import 'package:frl_boilerplate/commands/create_domain.dart';
+import 'package:frl_boilerplate/commands/create_env_command.dart';
 import 'package:frl_boilerplate/commands/create_feature.dart';
+import 'package:frl_boilerplate/commands/create_injection_config.dart';
 import 'package:frl_boilerplate/commands/init_project_command.dart';
 import 'package:frl_boilerplate/utils/logger.dart';
 
@@ -14,6 +18,11 @@ Future<void> main(List<String> args) async {
     dart run frl_boilerplate feature <name>
     dart run frl_boilerplate init
     dart run frl_boilerplate create-app
+    dart run frl_boilerplate create-asset
+    dart run frl_boilerplate create-env
+    dart run frl_boilerplate create-injection
+    dart run frl_boilerplate create-common
+    dart run frl_boilerplate update-analysis-option
   ''');
     exit(0);
   }
@@ -45,6 +54,26 @@ Future<void> main(List<String> args) async {
 
     case 'create-app':
       createApp();
+      break;
+
+    case 'create-asset':
+      createAssetFolders();
+      break;
+
+    case 'create-env':
+      createEnv();
+      break;
+
+    case 'create-injection':
+      createInjection();
+      break;
+
+    case 'create-common':
+      createCommon();
+      break;
+
+    case 'update-analysis-option':
+      createCommon();
       break;
 
     default:
