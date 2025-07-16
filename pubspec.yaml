@@ -11,6 +11,7 @@ dev_dependencies:
   test: ^1.24.0
 
 dependencies:
+  dio: ^5.8.0+1
   yaml: ^3.1.2
   yaml_edit: ^2.1.1
 

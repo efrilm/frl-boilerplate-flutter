@@ -1,8 +1,9 @@
 import 'dart:io';
+import 'dart:convert';
 import 'package:yaml/yaml.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 
-void addDependencies() {
+Future<void> addDependencies() async {
   final packages = [
     'auto_route',
     'connectivity_plus',
@@ -42,12 +43,12 @@ void addDependencies() {
 
   print('\n📦 Adding dependencies...');
   for (var pkg in packages) {
-    _addDependency(editor, pkg);
+    await _addDependency(editor, pkg);
   }
 
   print('\n🛠️ Adding dev dependencies...');
   for (var pkg in devPackages) {
-    _addDependency(editor, pkg, isDev: true);
+    await _addDependency(editor, pkg, isDev: true);
   }
 
   // Add flutter_gen config
@@ -66,11 +67,11 @@ void addDependencies() {
   print('\n✅ Dependencies and flutter_gen config added successfully.');
 }
 
-void _addDependency(
+Future<void> _addDependency(
   YamlEditor editor,
   String packageName, {
   bool isDev = false,
-}) {
+}) async {
   final section = isDev ? 'dev_dependencies' : 'dependencies';
 
   // Check if section already exists
@@ -89,13 +90,42 @@ void _addDependency(
     }
   }
 
+  final version = await _fetchLatestVersion(packageName);
+
   try {
-    editor.update([section, packageName], 'any');
-    print('    ✅ $packageName added.');
+    editor.update([section, packageName], version);
+    print('    ✅ $packageName: $version added.');
   } catch (_) {
-    // If section itself doesn't exist
-    editor.update([section], {packageName: 'any'});
-    print('    ✅ $packageName added.');
+    editor.update([section], {packageName: version});
+    print('    ✅ $packageName: $version added.');
+  }
+}
+
+Future<String> _fetchLatestVersion(String packageName) async {
+  final url = Uri.parse('https://pub.dev/api/packages/$packageName');
+
+  try {
+    final request = await HttpClient().getUrl(url);
+    final response = await request.close();
+
+    if (response.statusCode == 200) {
+      final jsonString = await response.transform(utf8.decoder).join();
+      final jsonMap = json.decode(jsonString);
+      final version = jsonMap['latest']['version'];
+
+      if (version != null) {
+        return '^$version';
+      } else {
+        print('    ⚠️ No version info for $packageName. Using "any".');
+        return 'any';
+      }
+    } else {
+      print('    ⚠️ Failed to fetch version for $packageName (status ${response.statusCode}). Using "any".');
+      return 'any';
+    }
+  } catch (e) {
+    print('    ⚠️ Error fetching version for $packageName: $e. Using "any".');
+    return 'any';
   }
 }
 

@@ -4,7 +4,7 @@ import 'package:frl_boilerplate/commands/create_domain.dart';
 import 'package:frl_boilerplate/commands/create_feature.dart';
 import 'package:frl_boilerplate/commands/init_project.dart';
 
-void main(List<String> args) {
+Future<void> main(List<String> args) async {
   if (args.isEmpty) {
     print('''
   Usage:
@@ -19,7 +19,7 @@ void main(List<String> args) {
 
   switch (command) {
     case 'init':
-      initProject();
+      await initProject();
       break;
 
     case 'domain':
