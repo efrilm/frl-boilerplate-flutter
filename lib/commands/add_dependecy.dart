@@ -155,15 +155,25 @@ void _createLauncherIconYaml() {
     return;
   }
 
-  final templateFile = File('templates/launcher_icon_template.yaml');
-  if (!templateFile.existsSync()) {
-    print('❌ Template launcher_icon_template.yaml not found!');
-    return;
-  }
+  final content = '''
+# Generate: dart run flutter_launcher_icons -f launcher_icons.yaml
 
-  final content = templateFile.readAsStringSync();
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "your_path"
+  remove_alpha_ios: true
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "your_path"
+  windows:
+    generate: true
+    image_path: "your_path"
+    icon_size: 48
+''';
 
   file.writeAsStringSync(content);
 
-  print('    ✅ launcher_icon.yaml created from template.');
+  print('    ✅ launcher_icon.yaml created from inline template.');
 }
