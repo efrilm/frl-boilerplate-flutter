@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:frl_boilerplate/commands/create_domain.dart';
 import 'package:frl_boilerplate/commands/create_feature.dart';
-import 'package:frl_boilerplate/commands/init_project.dart';
+import 'package:frl_boilerplate/commands/init_project_command.dart';
 
 Future<void> main(List<String> args) async {
   if (args.isEmpty) {

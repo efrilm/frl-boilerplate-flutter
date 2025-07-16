@@ -1,7 +1,10 @@
 import 'dart:io';
 import 'dart:convert';
+
 import 'package:yaml/yaml.dart';
 import 'package:yaml_edit/yaml_edit.dart';
+
+import '../core/logger.dart';
 
 Future<void> addDependencies() async {
   final packages = [
@@ -34,19 +37,19 @@ Future<void> addDependencies() async {
   final pubspecFile = File('pubspec.yaml');
 
   if (!pubspecFile.existsSync()) {
-    print('❌ pubspec.yaml not found!');
+    Logger.error('pubspec.yaml not found!');
     return;
   }
 
   final content = pubspecFile.readAsStringSync();
   final editor = YamlEditor(content);
 
-  print('\n📦 Adding dependencies...');
+  Logger.section('Adding dependencies...');
   for (var pkg in packages) {
     await _addDependency(editor, pkg);
   }
 
-  print('\n🛠️ Adding dev dependencies...');
+  Logger.section('Adding dev dependencies...');
   for (var pkg in devPackages) {
     await _addDependency(editor, pkg, isDev: true);
   }
@@ -59,12 +62,12 @@ Future<void> addDependencies() async {
   // Create launcher_icon.yaml
   _createLauncherIconYaml();
 
-  print('\n🚀 Running dart pub get...');
+  Logger.section('Running dart pub get...');
   final result = Process.runSync('dart', ['pub', 'get']);
   stdout.write(result.stdout);
   stderr.write(result.stderr);
 
-  print('\n✅ Dependencies and flutter_gen config added successfully.');
+  Logger.success('Dependencies and flutter_gen config added successfully.');
 }
 
 Future<void> _addDependency(
@@ -85,7 +88,7 @@ Future<void> _addDependency(
   if (currentDeps?.value is YamlMap) {
     final map = currentDeps!.value as YamlMap;
     if (map.containsKey(packageName)) {
-      print('    ⏭️  $packageName already exists, skipping...');
+      Logger.skip('$packageName already exists, skipping...');
       return;
     }
   }
@@ -94,10 +97,10 @@ Future<void> _addDependency(
 
   try {
     editor.update([section, packageName], version);
-    print('    ✅ $packageName: $version added.');
+    Logger.success('$packageName: $version added.');
   } catch (_) {
     editor.update([section], {packageName: version});
-    print('    ✅ $packageName: $version added.');
+    Logger.success('$packageName: $version added.');
   }
 }
 
@@ -116,15 +119,15 @@ Future<String> _fetchLatestVersion(String packageName) async {
       if (version != null) {
         return '^$version';
       } else {
-        print('    ⚠️ No version info for $packageName. Using "any".');
+        Logger.warning('No version info for $packageName. Using "any".');
         return 'any';
       }
     } else {
-      print('    ⚠️ Failed to fetch version for $packageName (status ${response.statusCode}). Using "any".');
+      Logger.warning('Failed to fetch version for $packageName (status ${response.statusCode}). Using "any".');
       return 'any';
     }
   } catch (e) {
-    print('    ⚠️ Error fetching version for $packageName: $e. Using "any".');
+    Logger.warning('Error fetching version for $packageName: $e. Using "any".');
     return 'any';
   }
 }
@@ -134,24 +137,23 @@ void _addFlutterGenConfig(YamlEditor editor) {
 
   try {
     editor.parseAt(path);
-    print('    ⏭️  flutter_gen config already exists, skipping...');
+    Logger.skip('flutter_gen config already exists, skipping...');
     return;
   } catch (_) {
-    // If not exists → add new
     editor.update(path, {
       'output': 'lib/shared/assets/',
       'integrations': {
         'flutter_svg': true,
       },
     });
-    print('    ✅ flutter_gen config added.');
+    Logger.success('flutter_gen config added.');
   }
 }
 
 void _createLauncherIconYaml() {
   final file = File('launcher_icon.yaml');
   if (file.existsSync()) {
-    print('    ⏭️  launcher_icon.yaml already exists, skipping...');
+    Logger.skip('launcher_icon.yaml already exists, skipping...');
     return;
   }
 
@@ -175,5 +177,5 @@ flutter_launcher_icons:
 
   file.writeAsStringSync(content);
 
-  print('    ✅ launcher_icon.yaml created from inline template.');
+  Logger.success('launcher_icon.yaml created from inline template.');
 }
