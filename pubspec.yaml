@@ -17,9 +17,3 @@ dependencies:
 
 executables:
   frl_boilerplate: frl_boilerplate
-flutter:
-  assets:
-    - assets/images/
-    - assets/icons/
-    - assets/fonts/
-    - assets/json/

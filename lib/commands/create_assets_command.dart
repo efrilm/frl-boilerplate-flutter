@@ -23,10 +23,12 @@ void createAssetFolders() {
     }
   }
 
+  Logger.success('Create asset folders Success');
   _updatePubspec(folders);
 }
 
 void _updatePubspec(List<String> assetPaths) {
+  Logger.section('Update Pubspec...');
   final pubspecFile = File('pubspec.yaml');
   if (!pubspecFile.existsSync()) {
     Logger.error('pubspec.yaml not found!');
@@ -80,4 +82,6 @@ void _updatePubspec(List<String> assetPaths) {
     pubspecFile.writeAsStringSync(editor.toString());
     Logger.success('pubspec.yaml created/updated with asset paths.');
   }
+
+  Logger.success('Update Pubspec Success');
 }
