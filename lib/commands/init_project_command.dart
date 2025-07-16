@@ -10,11 +10,11 @@ Future<void> initProject() async {
   Logger.section('🔧 Running frl_boilerplate init...');
 
   updateAnalysisOptions();
-  // createAssetFolders();
-  // await addDependencies();
-  // createCommon();
-  // createEnv();
-  // createInjection();
+  createAssetFolders();
+  await addDependencies();
+  createCommon();
+  createEnv();
+  createInjection();
 
   Logger.section('✅ frl_boilerplate init completed!');
 }

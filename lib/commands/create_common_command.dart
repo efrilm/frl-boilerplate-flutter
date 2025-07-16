@@ -16,7 +16,6 @@ void createCommon() {
     'formatter',
     'function',
     'network',
-    'resources',
     'url',
     'validator',
     'components'
