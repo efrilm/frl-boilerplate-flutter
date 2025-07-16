@@ -30,14 +30,14 @@ abstract class Env {
 @dev
 class DevEnv implements Env {
   @override
-  String get baseUrl => 'http://192.168.0.107:8000/api'; // example value
+  String get baseUrl => ''; // example value
 }
 
 @Injectable(as: Env)
 @prod
 class ProdEnv implements Env {
   @override
-  String get baseUrl => 'http://192.168.0.107:8000/api';
+  String get baseUrl => '';
 }
 ''';
 

@@ -302,14 +302,14 @@ abstract class Env {
 @dev
 class DevEnv implements Env {
   @override
-  String get baseUrl => 'http://192.168.0.107:8000/api';
+  String get baseUrl => '';
 }
 
 @Injectable(as: Env)
 @prod
 class ProdEnv implements Env {
   @override
-  String get baseUrl => 'http://192.168.0.107:8000/api';
+  String get baseUrl => '';
 }
 ```
 
@@ -324,8 +324,8 @@ Example CLI output:
 
 ```
 ──────────── Generating env.dart... ────────────
-✅ Created folder: lib/shared/env
-✅ env.dart generated at: lib/shared/env/env.dart
+✅ Created folder: lib
+✅ env.dart generated at: lib/env.dart
 ```
 
 ---
