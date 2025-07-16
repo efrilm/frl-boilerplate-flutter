@@ -77,6 +77,7 @@ dart run frl_boilerplate init
 This command:
 
 - Adds recommended dependencies
+- Generates assets folder
 - Generates `launcher_icon.yaml`
 - Configures `flutter_gen`
 - Runs `dart pub get`
