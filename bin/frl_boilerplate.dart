@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:frl_boilerplate/commands/create_app_command.dart';
 import 'package:frl_boilerplate/commands/create_domain.dart';
 import 'package:frl_boilerplate/commands/create_feature.dart';
 import 'package:frl_boilerplate/commands/init_project_command.dart';
@@ -12,6 +13,7 @@ Future<void> main(List<String> args) async {
     dart run frl_boilerplate domain <name>
     dart run frl_boilerplate feature <name>
     dart run frl_boilerplate init
+    dart run frl_boilerplate create-app
   ''');
     exit(0);
   }
@@ -39,6 +41,10 @@ Future<void> main(List<String> args) async {
       }
       final name = args[1];
       createFeature(name);
+      break;
+
+    case 'create-app':
+      createApp();
       break;
 
     default:

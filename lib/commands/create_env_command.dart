@@ -4,7 +4,7 @@ import 'package:frl_boilerplate/utils/logger.dart';
 void createEnv() {
   Logger.section('Generating env.dart...');
 
-  final path = 'lib';
+  final path = 'lib/app';
   final filePath = '$path/env.dart';
   final file = File(filePath);
 

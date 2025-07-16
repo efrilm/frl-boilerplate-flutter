@@ -141,7 +141,7 @@ void _addFlutterGenConfig(YamlEditor editor) {
     return;
   } catch (_) {
     editor.update(path, {
-      'output': 'lib/shared/assets/',
+      'output': 'lib/app/assets/',
       'integrations': {
         'flutter_svg': true,
       },
