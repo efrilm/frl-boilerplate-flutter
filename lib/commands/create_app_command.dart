@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:frl_boilerplate/commands/create_router_command.dart';
 import 'package:frl_boilerplate/commands/create_theme_command.dart';
 import 'package:frl_boilerplate/utils/logger.dart';
 
@@ -22,6 +23,7 @@ void createApp() {
   }
 
   createTheme();
+  createRouter();
 
   Logger.success('Create app folder Success');
 }

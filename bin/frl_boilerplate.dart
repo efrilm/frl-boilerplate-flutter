@@ -7,6 +7,7 @@ import 'package:frl_boilerplate/commands/create_domain.dart';
 import 'package:frl_boilerplate/commands/create_env_command.dart';
 import 'package:frl_boilerplate/commands/create_feature.dart';
 import 'package:frl_boilerplate/commands/create_injection_config.dart';
+import 'package:frl_boilerplate/commands/create_router_command.dart';
 import 'package:frl_boilerplate/commands/create_theme_command.dart';
 import 'package:frl_boilerplate/commands/init_project_command.dart';
 import 'package:frl_boilerplate/utils/logger.dart';
@@ -15,9 +16,9 @@ Future<void> main(List<String> args) async {
   if (args.isEmpty) {
     print('''
   Usage:
+    dart run frl_boilerplate init
     dart run frl_boilerplate domain <name>
     dart run frl_boilerplate feature <name>
-    dart run frl_boilerplate init
     dart run frl_boilerplate create-app
     dart run frl_boilerplate create-asset
     dart run frl_boilerplate create-env
@@ -25,6 +26,7 @@ Future<void> main(List<String> args) async {
     dart run frl_boilerplate create-common
     dart run frl_boilerplate update-analysis-option
     dart run frl_boilerplate create-theme
+    dart run frl_boilerplate create-router
   ''');
     exit(0);
   }
@@ -80,6 +82,10 @@ Future<void> main(List<String> args) async {
 
     case 'create-theme':
       createTheme();
+      break;
+
+    case 'create-router':
+      createRouter();
       break;
 
     default:
