@@ -14,7 +14,6 @@ It helps you:
 ## ✨ Features
 
 ✅ Add latest versions of recommended packages  
-✅ Auto generate assets folder  
 ✅ Auto-generate Clean Architecture folders (domain, data, presentation)  
 ✅ Support BLoC pattern  
 ✅ Generate launcher_icon.yaml  
@@ -77,7 +76,6 @@ dart run frl_boilerplate init
 This command:
 
 - Adds recommended dependencies
-- Generates assets folder
 - Generates `launcher_icon.yaml`
 - Configures `flutter_gen`
 - Runs `dart pub get`
@@ -133,6 +131,202 @@ lib/features/auth/
 ```
 
 ---
+
+## 🛠️ Additional Commands
+
+### Run Flutter Launcher Icons
+
+After initializing, generate your app icons by running:
+
+```bash
+dart run flutter_launcher_icons -f launcher_icon.yaml
+```
+
+---
+
+## 📂 Recommended Project Structure
+
+Here’s an example of the structure after using this CLI:
+
+```
+lib/
+├── core/
+│   ├── constants/
+│   └── logger.dart
+├── domain/
+│   └── ...
+├── features/
+│   └── ...
+├── shared/
+│   └── ...
+└── main.dart
+```
+
+---
+
+## 💻 Development
+
+### Run Tests
+
+```bash
+dart test
+```
+
+### Format Code
+
+```bash
+dart format .
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to:
+
+- Open an issue
+- Submit a pull request
+- Suggest improvements
+
+---
+
+## 📄 License
+
+MIT License
+
+---
+
+## 🔗 Related Links
+
+- [Dart CLI Documentation](https://dart.dev/tools/dart-cli)
+- [Flutter Documentation](https://flutter.dev/docs)
+
+---
+
+## 📸 Screenshot
+
+> Add screenshots of your CLI output here for a nice README visual!
+
+Example output:
+
+```
+🔹 Adding dependencies...
+✅ dio: ^5.4.0 added.
+⏭️  get_it already exists, skipping...
+
+🔹 Running dart pub get...
+Resolving dependencies...
+✅ All done!
+```
+
+---
+
+## ⚙️ Project Scaffolding
+
+The FRL Boilerplate CLI helps you quickly scaffold common project structure.
+
+### Create `lib/common` Folders
+
+Generate standard folders for shared code using:
+
+```bash
+dart run frl_boilerplate create-common
+```
+
+This creates:
+
+```
+lib/common/
+├── api/
+├── constants/
+├── di/
+├── extension/
+├── formatter/
+├── function/
+├── network/
+├── resources/
+├── url/
+├── validator/
+└── components/
+```
+
+Use this folder for reusable, project-wide utilities, constants, components, and helpers.
+
+Example CLI output:
+
+```
+──────────── Create common folder... ────────────
+✅ Created folder: api
+✅ Created folder: constants
+✅ Created folder: di
+✅ Created folder: extension
+✅ Created folder: formatter
+✅ Created folder: function
+✅ Created folder: network
+✅ Created folder: resources
+✅ Created folder: url
+✅ Created folder: validator
+✅ Created folder: components
+✅ Create common folder Success
+```
+
+---
+
+## 🌐 Environment Configuration
+
+FRL Boilerplate CLI also generates an environment configuration for dependency injection:
+
+Generate your environment file with:
+
+```bash
+dart run frl_boilerplate create-env
+```
+
+This creates:
+
+```
+lib/shared/env/env.dart
+```
+
+Default content:
+
+```dart
+import 'package:injectable/injectable.dart';
+
+abstract class Env {
+  String get baseUrl;
+  // add getter here...
+}
+
+@Injectable(as: Env)
+@dev
+class DevEnv implements Env {
+  @override
+  String get baseUrl => 'http://192.168.0.107:8000/api';
+}
+
+@Injectable(as: Env)
+@prod
+class ProdEnv implements Env {
+  @override
+  String get baseUrl => 'http://192.168.0.107:8000/api';
+}
+```
+
+You can extend this class with additional environment-specific configurations, such as:
+
+- API keys
+- Analytics tokens
+- Feature toggles
+- Third-party service URLs
+
+Example CLI output:
+
+```
+──────────── Generating env.dart... ────────────
+✅ Created folder: lib/shared/env
+✅ env.dart generated at: lib/shared/env/env.dart
+```
 
 ---
 
@@ -232,71 +426,4 @@ Example output from the CLI:
 ✅ Added asset path to pubspec.yaml: assets/fonts/
 ✅ Added asset path to pubspec.yaml: assets/json/
 ✅ pubspec.yaml updated with asset paths.
-```
-
----
-
-## 🛠️ Additional Commands
-
-### Run Flutter Launcher Icons
-
-After initializing, generate your app icons by running:
-
-```bash
-dart run flutter_launcher_icons -f launcher_icon.yaml
-```
-
-## 💻 Development
-
-### Run Tests
-
-```bash
-dart test
-```
-
-### Format Code
-
-```bash
-dart format .
-```
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to:
-
-- Open an issue
-- Submit a pull request
-- Suggest improvements
-
----
-
-## 📄 License
-
-MIT License
-
----
-
-## 🔗 Related Links
-
-- [Dart CLI Documentation](https://dart.dev/tools/dart-cli)
-- [Flutter Documentation](https://flutter.dev/docs)
-
----
-
-## 📸 Screenshot
-
-> Add screenshots of your CLI output here for a nice README visual!
-
-Example output:
-
-```
-🔹 Adding dependencies...
-✅ dio: ^5.4.0 added.
-⏭️  get_it already exists, skipping...
-
-🔹 Running dart pub get...
-Resolving dependencies...
-✅ All done!
 ```
