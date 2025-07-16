@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:frl_boilerplate/commands/create_domain.dart';
 import 'package:frl_boilerplate/commands/create_feature.dart';
+import 'package:frl_boilerplate/commands/init_project.dart';
 
 void main(List<String> args) {
   if (args.isEmpty) {
@@ -9,6 +10,7 @@ void main(List<String> args) {
   Usage:
     dart run frl_boilerplate domain <name>
     dart run frl_boilerplate feature <name>
+    dart run frl_boilerplate init
   ''');
     exit(0);
   }
@@ -16,6 +18,10 @@ void main(List<String> args) {
   final command = args[0];
 
   switch (command) {
+    case 'init':
+      initProject();
+      break;
+
     case 'domain':
       if (args.length < 2) {
         print('❌ Missing name for domain.');
