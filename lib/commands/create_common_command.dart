@@ -18,6 +18,8 @@ void createCommon() {
     'network',
     'resources',
     'url',
+    'validator',
+    'components'
   ];
   for (var folder in subfolders) {
     Directory('${baseDir.path}/$folder').createSync(recursive: true);
