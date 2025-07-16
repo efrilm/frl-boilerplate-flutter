@@ -30,7 +30,7 @@ class ThemeApp {
 '''
     },
     {
-      'name': 'color_app.dart',
+      'name': 'app_color.dart',
       'content': '''
 part of 'theme.dart';
 
@@ -40,7 +40,7 @@ class AppColor {
 '''
     },
     {
-      'name': 'style_app.dart',
+      'name': 'app_style.dart',
       'content': '''
 part of 'theme.dart';
 
@@ -50,7 +50,7 @@ class AppStyle {
 '''
     },
     {
-      'name': 'value_app.dart',
+      'name': 'app_value.dart',
       'content': '''
 part of 'theme.dart';
 
