@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:yaml/yaml.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 
-import '../core/logger.dart';
+import '../utils/logger.dart';
 
 Future<void> addDependencies() async {
   final packages = [
