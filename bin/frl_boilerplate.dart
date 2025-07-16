@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:frl_boilerplate/commands/create_domain.dart';
 import 'package:frl_boilerplate/commands/create_feature.dart';
 import 'package:frl_boilerplate/commands/init_project_command.dart';
+import 'package:frl_boilerplate/utils/logger.dart';
 
 Future<void> main(List<String> args) async {
   if (args.isEmpty) {
@@ -24,7 +25,7 @@ Future<void> main(List<String> args) async {
 
     case 'domain':
       if (args.length < 2) {
-        print('❌ Missing name for domain.');
+        Logger.error('Missing name for domain.');
         exit(1);
       }
       final name = args[1];
@@ -33,7 +34,7 @@ Future<void> main(List<String> args) async {
 
     case 'feature':
       if (args.length < 2) {
-        print('❌ Missing name for feature.');
+        Logger.error('Missing name for feature.');
         exit(1);
       }
       final name = args[1];
@@ -41,6 +42,6 @@ Future<void> main(List<String> args) async {
       break;
 
     default:
-      print('❌ Unknown command: $command');
+      Logger.error('Unknown command: $command');
   }
 }
