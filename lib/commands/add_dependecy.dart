@@ -27,6 +27,7 @@ void addDependencies() {
     'awesome_dio_interceptor',
     'injectable_generator',
     'flutter_gen_runner',
+    'flutter_launcher_icons',
   ];
 
   final pubspecFile = File('pubspec.yaml');
@@ -53,6 +54,9 @@ void addDependencies() {
   _addFlutterGenConfig(editor);
 
   pubspecFile.writeAsStringSync(editor.toString());
+
+  // Create launcher_icon.yaml
+  _createLauncherIconYaml();
 
   print('\n🚀 Running dart pub get...');
   final result = Process.runSync('dart', ['pub', 'get']);
@@ -112,4 +116,24 @@ void _addFlutterGenConfig(YamlEditor editor) {
     });
     print('    ✅ flutter_gen config added.');
   }
+}
+
+void _createLauncherIconYaml() {
+  final file = File('launcher_icon.yaml');
+  if (file.existsSync()) {
+    print('    ⏭️  launcher_icon.yaml already exists, skipping...');
+    return;
+  }
+
+  final templateFile = File('templates/launcher_icon_template.yaml');
+  if (!templateFile.existsSync()) {
+    print('❌ Template launcher_icon_template.yaml not found!');
+    return;
+  }
+
+  final content = templateFile.readAsStringSync();
+
+  file.writeAsStringSync(content);
+
+  print('    ✅ launcher_icon.yaml created from template.');
 }
