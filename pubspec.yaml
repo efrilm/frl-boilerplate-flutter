@@ -1,8 +1,8 @@
 name: frl_boilerplate
 description: Boilerplate code generator for Clean Architecture in Flutter
 version: 1.0.0
-repository: https://github.com/username/frl_boilerplate
-homepage: https://github.com/username/frl_boilerplate
+repository: https://github.com/efrilm/frl-boilerplate-flutter
+homepage: https://github.com/efrilm/frl-boilerplate-flutter
 environment:
   sdk: ">=3.0.0 <4.0.0"
 
@@ -10,5 +10,16 @@ dev_dependencies:
   lints: ^5.0.0
   test: ^1.24.0
 
+dependencies:
+  dio: ^5.8.0+1
+  yaml: ^3.1.2
+  yaml_edit: ^2.1.1
+
 executables:
   frl_boilerplate: frl_boilerplate
+flutter:
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/fonts/
+    - assets/json/
