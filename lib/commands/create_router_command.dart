@@ -74,7 +74,7 @@ class AppRouteObserver extends AutoRouterObserver {
   }
 
   if (createdCount > 0) {
-    Logger.success('✅ Generated  router file(s) successfully.');
+    Logger.success('Generated router file(s) successfully.');
   } else {
     Logger.warning('⏭️ No router files were generated. All files already exist.');
   }
