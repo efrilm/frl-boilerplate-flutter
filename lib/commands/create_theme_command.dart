@@ -77,7 +77,7 @@ class AppValue {
   }
 
   if (createdCount > 0) {
-    Logger.success(' Generated $createdCount theme file(s) successfully.');
+    Logger.success('Generated theme file(s) successfully.');
   } else {
     Logger.warning('No theme files were generated. All files already exist.');
   }
