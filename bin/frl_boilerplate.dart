@@ -8,6 +8,7 @@ import 'package:frl_boilerplate/commands/create_env_command.dart';
 import 'package:frl_boilerplate/commands/create_feature.dart';
 import 'package:frl_boilerplate/commands/create_injection_config.dart';
 import 'package:frl_boilerplate/commands/create_router_command.dart';
+import 'package:frl_boilerplate/commands/create_splash_feature_command.dart';
 import 'package:frl_boilerplate/commands/create_theme_command.dart';
 import 'package:frl_boilerplate/commands/init_project_command.dart';
 import 'package:frl_boilerplate/utils/logger.dart';
@@ -27,6 +28,7 @@ Future<void> main(List<String> args) async {
     dart run frl_boilerplate update-analysis-option
     dart run frl_boilerplate create-theme
     dart run frl_boilerplate create-router
+    dart run frl_boilerplate create-splash-feature
   ''');
     exit(0);
   }
@@ -86,6 +88,10 @@ Future<void> main(List<String> args) async {
 
     case 'create-router':
       createRouter();
+      break;
+
+    case 'create-splash-feature':
+      createSplashFeature();
       break;
 
     default:

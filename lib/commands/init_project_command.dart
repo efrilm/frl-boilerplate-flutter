@@ -2,6 +2,7 @@ import 'package:frl_boilerplate/commands/add_dependecy_command.dart';
 import 'package:frl_boilerplate/commands/create_app_command.dart';
 import 'package:frl_boilerplate/commands/create_env_command.dart';
 import 'package:frl_boilerplate/commands/create_injection_config.dart';
+import 'package:frl_boilerplate/commands/create_splash_feature_command.dart';
 import 'package:frl_boilerplate/commands/update_analysis_options_command.dart';
 import 'package:frl_boilerplate/commands/create_assets_command.dart';
 import 'package:frl_boilerplate/commands/create_common_command.dart';
@@ -17,6 +18,7 @@ Future<void> initProject() async {
   createCommon();
   createEnv();
   createInjection();
+  createSplashFeature();
 
   Logger.section('✅ frl_boilerplate init completed!');
 }
