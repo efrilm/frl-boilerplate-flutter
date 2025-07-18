@@ -11,6 +11,7 @@ import 'package:frl_boilerplate/commands/create_router_command.dart';
 import 'package:frl_boilerplate/commands/create_splash_feature_command.dart';
 import 'package:frl_boilerplate/commands/create_theme_command.dart';
 import 'package:frl_boilerplate/commands/init_project_command.dart';
+import 'package:frl_boilerplate/commands/run_comand.dart';
 import 'package:frl_boilerplate/utils/logger.dart';
 
 Future<void> main(List<String> args) async {
@@ -29,6 +30,7 @@ Future<void> main(List<String> args) async {
     dart run frl_boilerplate create-theme
     dart run frl_boilerplate create-router
     dart run frl_boilerplate create-splash-feature
+    dart run frl_boilerplate build-runner
   ''');
     exit(0);
   }
@@ -92,6 +94,10 @@ Future<void> main(List<String> args) async {
 
     case 'create-splash-feature':
       createSplashFeature();
+      break;
+
+    case 'build-runner':
+      runBuildRunner();
       break;
 
     default:
