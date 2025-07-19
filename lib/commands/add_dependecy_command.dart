@@ -22,6 +22,7 @@ Future<void> addDependencies() async {
     'json_serializable',
     'dartz',
     'flutter_svg',
+    'shared_preferences',
   ];
 
   final devPackages = [

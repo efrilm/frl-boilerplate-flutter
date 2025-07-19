@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:frl_boilerplate/utils/string_utils.dart';
 
-void createDomain(String name) {
+void createDomainX(String name) {
   final baseDir = Directory('lib/domain/$name');
   baseDir.createSync(recursive: true);
 
