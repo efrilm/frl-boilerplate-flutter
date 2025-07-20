@@ -6,7 +6,7 @@ import 'package:yaml_edit/yaml_edit.dart';
 
 import '../utils/logger.dart';
 
-Future<void> addDependencies() async {
+Future<void> addDependencieWithLatest() async {
   final packages = [
     'auto_route',
     'connectivity_plus',

@@ -18,9 +18,9 @@ void createTheme() {
       'content': '''
 import 'package:flutter/material.dart';
 
-part 'color_app.dart';
-part 'style_app.dart';
-part 'value_app.dart';
+part 'app_color.dart';
+part 'app_style.dart';
+part 'app_value.dart';
 
 class ThemeApp {
   static ThemeData get theme => ThemeData(

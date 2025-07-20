@@ -1,4 +1,4 @@
-import 'package:frl_boilerplate/commands/add_dependecy_command.dart';
+import 'package:frl_boilerplate/commands/add_dependency_static_command.dart';
 import 'package:frl_boilerplate/commands/create_app_command.dart';
 import 'package:frl_boilerplate/commands/create_env_command.dart';
 import 'package:frl_boilerplate/commands/create_injection_config.dart';
@@ -15,7 +15,7 @@ Future<void> initProject() async {
   updateAnalysisOptions();
   createAssetFolders();
   createApp();
-  await addDependencies();
+  await addDependencieWithStatic();
   createCommon();
   createEnv();
   createInjection();

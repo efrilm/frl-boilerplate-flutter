@@ -34,8 +34,8 @@ import 'package:flutter/material.dart';
 import '../app/theme/theme.dart';
 import '../common/constant/app_constant.dart';
 import 'injection.dart';
-import 'routes/app_router.dart';
-import 'routes/app_router_observer.dart';
+import 'router/app_router.dart';
+import 'router/app_router_observer.dart';
 
 class AppWidget extends StatefulWidget {
   const AppWidget({super.key});
