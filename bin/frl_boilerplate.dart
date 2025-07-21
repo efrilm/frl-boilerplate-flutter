@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:frl_boilerplate/commands/create_app_command.dart';
 import 'package:frl_boilerplate/commands/create_assets_command.dart';
 import 'package:frl_boilerplate/commands/create_common_command.dart';
-import 'package:frl_boilerplate/commands/create_domain.dart';
 import 'package:frl_boilerplate/commands/create_env_command.dart';
 import 'package:frl_boilerplate/commands/create_feature.dart';
 import 'package:frl_boilerplate/commands/create_injection_config.dart';
@@ -21,6 +20,8 @@ Future<void> main(List<String> args) async {
     dart run frl_boilerplate init
     dart run frl_boilerplate domain <name>
     dart run frl_boilerplate feature <name>
+    dart run frl_boilerplate infrastructure <name>
+    dart run frl_boilerplate presentation <name>
     dart run frl_boilerplate create-app
     dart run frl_boilerplate create-asset
     dart run frl_boilerplate create-env
@@ -58,6 +59,24 @@ Future<void> main(List<String> args) async {
       }
       final name = args[1];
       createFeature(name);
+      break;
+
+    case 'infrastructure':
+      if (args.length < 2) {
+        Logger.error('Missing name for infrastructure.');
+        exit(1);
+      }
+      final name = args[1];
+      createInfrastructure(name);
+      break;
+
+    case 'presentation':
+      if (args.length < 2) {
+        Logger.error('Missing name for presentation.');
+        exit(1);
+      }
+      final name = args[1];
+      createPresentation(name);
       break;
 
     case 'create-app':

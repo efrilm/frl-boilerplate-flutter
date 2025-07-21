@@ -15,7 +15,7 @@ void main() {
     });
 
     test('should create domain folder and files', () {
-      createDomain(testName);
+      createDomainX(testName);
 
       // check folder exists
       expect(testDir.existsSync(), isTrue);

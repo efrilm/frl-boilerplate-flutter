@@ -23,4 +23,5 @@ const Map<String, String> staticDevDependencies = {
   'injectable_generator': '^2.5.0',
   'flutter_gen_runner': '^5.11.0',
   'flutter_launcher_icons': '^0.14.4',
+  'json_serializable': '^6.9.5'
 };

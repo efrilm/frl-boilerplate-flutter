@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:frl_boilerplate/commands/run_comand.dart';
+import 'package:frl_boilerplate/utils/logger.dart';
 import 'package:frl_boilerplate/utils/string_utils.dart';
 
 void createFeature(String name) {
@@ -8,17 +10,20 @@ void createFeature(String name) {
   final base = 'lib/features/$camel';
   Directory(base).createSync(recursive: true);
 
-  createInfrastructure(camel);
-  createDomain(camel);
-  createPresentation(camel);
+  createInfrastructure(name);
+  createDomain(name);
+  createPresentation(name);
+  runBuildRunner();
 
-  print('🎉 Feature "$camel" structure created with default contents!');
+  Logger.success('🎉 Feature "$name" structure created with default contents!');
 }
 
 /// Create Infrastructure Layer
 void createInfrastructure(String name) {
   final base = 'lib/features/$name/infrastructure';
   final pascalName = toPascalCase(name);
+  final camelName = toSnakeCase(name);
+
   final dirs = [
     '$base/datasources',
     '$base/models',
@@ -30,21 +35,22 @@ void createInfrastructure(String name) {
   }
 
   final files = {
-    '$base/${name}_dtos.dart': '''
+    '$base/${camelName}_dtos.dart': '''
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../common/api/api_client.dart';
+import '../domain/$camelName.dart';
 
-part 'datasources/${name}_remote_data_source.dart';
-part 'repositories/${name}_repository';
-part 'models/${name}_model.dart';
-part '${name}_dtos.freezed.dart';
-part '${name}_dtos.g.dart';
+part 'datasources/${camelName}_remote_data_source.dart';
+part 'repositories/${camelName}_repository.dart';
+part 'models/${camelName}_model.dart';
+part '${camelName}_dtos.freezed.dart';
+part '${camelName}_dtos.g.dart';
 
 ''',
-    '$base/datasources/${name}_remote_data_source.dart': '''
-part of '../${name}_dtos.dart';
+    '$base/datasources/${camelName}_remote_data_source.dart': '''
+part of '../${camelName}_dtos.dart';
 
 @injectable
 class ${pascalName}RemoteDataProvider {
@@ -54,23 +60,23 @@ class ${pascalName}RemoteDataProvider {
   ${pascalName}RemoteDataProvider(this._apiClient);
 }
 ''',
-    '$base/models/${name}_model.dart': '''
-part of '../${name}_dtos.dart';
+    '$base/models/${camelName}_model.dart': '''
+part of '../${camelName}_dtos.dart';
 
 @freezed
 class ${pascalName}Dto with _\$${pascalName}Dto {
   const ${pascalName}Dto._();
 
-   const factory ${pascalName}Dto({ }) = _${pascalName}Dto;
+   const factory ${pascalName}Dto() = _${pascalName}Dto;
 
    factory ${pascalName}Dto.fromJson(Map<String, dynamic> json) => _\$${pascalName}DtoFromJson(json);
 
-   pascalName toDomain() => pascalName();
+   $pascalName toDomain() => $pascalName();
 }
 ''',
-    '$base/repositories/${name}_repository.dart': '''
-part of '../${name}_dtos.dart';
-@Injectable(as: IAuthRepository)
+    '$base/repositories/${camelName}_repository.dart': '''
+part of '../${camelName}_dtos.dart';
+@Injectable(as: I${pascalName}Repository)
 class ${pascalName}Repository implements I${pascalName}Repository {
   final ${pascalName}RemoteDataProvider _remoteDataProvider;
   final String _logName = '${pascalName}Repository';
@@ -88,10 +94,13 @@ class ${pascalName}Repository implements I${pascalName}Repository {
 /// Create Domain Layer
 void createDomain(String name) {
   final base = 'lib/features/$name/domain';
+  final pascalName = toPascalCase(name);
+  final camelName = toSnakeCase(name);
+
   final dirs = [
     '$base/entities',
     '$base/repositories',
-    '$base/usecases',
+    '$base/failures',
   ];
 
   for (var dir in dirs) {
@@ -99,26 +108,44 @@ void createDomain(String name) {
   }
 
   final files = {
-    '$base/entities/$name.dart': '''
-class ${toPascalCase(name)} {
-  // TODO: define entity
-}
+    '$base/$camelName.dart': '''
+import 'package:dartz/dartz.dart' hide id;
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../common/api/api_failure.dart';
+
+part '$camelName.freezed.dart';
+part 'failures/${camelName}_failure.dart';
+part 'repositories/i_${camelName}_repository.dart';
+part 'entities/$camelName.dart';
 ''',
-    '$base/repositories/${name}_repository.dart': '''
-abstract class ${toPascalCase(name)}Repository {
-  // TODO: define repository contract
-}
+    '$base/entities/$camelName.dart': '''
+part of '../$camelName.dart';
+@freezed
+class $pascalName with _\$$pascalName {
+  const $pascalName._();
+
+   const factory $pascalName() = _$pascalName;
+
+   factory $pascalName.empty() => const $pascalName();
+  }
 ''',
-    '$base/usecases/request_$name.dart': '''
-import '../repositories/${name}_repository.dart';
+    '$base/repositories/i_${camelName}_repository.dart': '''
+part of '../$camelName.dart';
+abstract class I${pascalName}Repository {}
+''',
+    '$base/failures/${camelName}_failure.dart': '''
+part of '../$camelName.dart';
 
-class Request${toPascalCase(name)} {
-  final ${toPascalCase(name)}Repository repository;
-
-  Request${toPascalCase(name)}(this.repository);
-
-  // TODO: implement usecase
+@freezed
+sealed class ${pascalName}Failure with _\$${pascalName}Failure {
+  const factory ${pascalName}Failure.serverError(ApiFailure failure) = _ServerError;
+  const factory ${pascalName}Failure.unexpectedError() = _UnexpectedError;
+  const factory ${pascalName}Failure.dynamicErrorMessage(
+    String erroMessage,
+  ) = _DynamicErrorMessage;
 }
+
 ''',
   };
 
@@ -126,10 +153,11 @@ class Request${toPascalCase(name)} {
 }
 
 /// Create Presentation Layer
-void createPresentation(String name) {
+Future<void> createPresentation(String name) async {
   final base = 'lib/features/$name/presentation';
+  final pascalName = toPascalCase(name);
+  final camelName = toSnakeCase(name);
   final dirs = [
-    '$base/cubit',
     '$base/pages',
   ];
 
@@ -138,35 +166,22 @@ void createPresentation(String name) {
   }
 
   final files = {
-    '$base/cubit/${name}_cubit.dart': '''
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '${name}_state.dart';
-
-class ${toPascalCase(name)}Cubit extends Cubit<${toPascalCase(name)}State> {
-  ${toPascalCase(name)}Cubit() : super(${toPascalCase(name)}Initial());
-
-  // TODO: implement cubit logic
-}
-''',
-    '$base/cubit/${name}_state.dart': '''
-abstract class ${toPascalCase(name)}State {}
-
-class ${toPascalCase(name)}Initial extends ${toPascalCase(name)}State {}
-''',
-    '$base/pages/${name}_page.dart': '''
+    '$base/pages/${camelName}_page.dart': '''
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-class ${toPascalCase(name)}Page extends StatelessWidget {
-  const ${toPascalCase(name)}Page({super.key});
+@RoutePage()
+class ${pascalName}Page extends StatelessWidget {
+  const ${pascalName}Page({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('${toPascalCase(name)} Page'),
+        title: const Text('$pascalName Page'),
       ),
       body: const Center(
-        child: Text('This is the ${toPascalCase(name)} page'),
+        child: Text('This is the $pascalName page'),
       ),
     );
   }
@@ -175,6 +190,8 @@ class ${toPascalCase(name)}Page extends StatelessWidget {
   };
 
   _writeFiles(files);
+
+  await updateRoutes("${pascalName}Route", '${pascalName}Page');
 }
 
 /// Write file if not exists
@@ -183,13 +200,52 @@ void _writeFiles(Map<String, String> files) {
     final file = File(path);
     if (!file.existsSync()) {
       file.writeAsStringSync(content);
-      print('✅ Created: $path');
+      Logger.success('Created: $path');
     } else {
-      print('⚠️ Already exists: $path');
+      Logger.warning('Already exists: $path');
     }
   });
 }
 
-/// Convert to PascalCase
+Future<void> updateRoutes(String routeName, String pageClass) async {
+  final filePath = 'lib/app/router/app_router.dart';
+  final file = File(filePath);
 
-/// Convert to camelCase
+  if (!file.existsSync()) {
+    Logger.error('$filePath not found.');
+    return;
+  }
+
+  var content = file.readAsStringSync();
+
+  // 1. Tambahkan import jika belum ada
+  final importStatement = "import 'app_router.gr.dart';";
+  if (!content.contains(importStatement)) {
+    content = content.replaceFirst(
+      "import 'package:auto_route/auto_route.dart';",
+      "import 'package:auto_route/auto_route.dart';\n$importStatement",
+    );
+  }
+
+  // 2. Cek apakah route sudah ada
+  if (content.contains('$routeName.page')) {
+    Logger.skip('$routeName already exists in routes.');
+    return;
+  }
+
+  // 3. Sisipkan ke dalam list route
+  final pattern = RegExp(r'List<AutoRoute>\s+get\s+routes\s*=>\s*\[\s*([\s\S]*?)\];');
+  final match = pattern.firstMatch(content);
+
+  if (match != null) {
+    final existingRoutes = match.group(1);
+    final newRoutes = '$existingRoutes\n        AutoRoute(page: $routeName.page),';
+    final newContent =
+        content.replaceRange(match.start, match.end, 'List<AutoRoute> get routes => [\n$newRoutes\n      ];');
+
+    file.writeAsStringSync(newContent);
+    Logger.success('Route $routeName added successfully.');
+  } else {
+    Logger.error('Failed to locate route list in app_router.dart.');
+  }
+}
